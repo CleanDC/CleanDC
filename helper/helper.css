@@ -1,0 +1,11 @@
+form#gjjal{
+  float: right;
+  margin-right: 8px;
+  height: 100%;
+  display: flex;
+}
+form#gjjal #do-gjjal{
+  border: none;
+  background: transparent;
+  outline: none;
+}

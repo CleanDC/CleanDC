@@ -1,0 +1,31 @@
+﻿.cleandc-block,
+[id^="ad_"],[class^="ad_"],[class^="div-gpt-ad-"],
+[id$="_ad"],[class$="_ad"],[class^="adsByIdn"],
+[id*="taboola"],[class*="taboola"],
+[id^=div-gpt-ad],[id^="ad-"],[class^="ad-"],iframe[src*="itemmania.com"],
+[id*="soeaFrame"],[id*="NeoScreen"],[id^="aswift"],
+iframe[src*="about.co.kr"],.banner_dc,
+#isx,#div_neo,.banner_box,#dc_advertisement,
+#uniqubeAd_area,.con_banner,#NeoInteractiveScreenViewLayer,.daum_ddn_area,.kakao_ad_area,
+.stickyunit,.adsbygoogle,.google_banner,._BTN_AD_,.power_click, .right_content>.rightbanner{display: none !important;}
+.clear+div[style*=height]{height:1px !important;}
+[id*="banner"],[id*="daumdn_DAN"],[class*="banner"] {visibility: hidden !important;}
+[id*="realclick"]{
+	position: fixed !important;
+	top: 30000000px !important;
+}
+div#neoScreenMixWiderViewLayer{
+	max-height:0px !important;
+	max-width:0px !important;
+	overflow:hidden !important;
+}
+
+
+td.gall_writer[user_name=" 운영자"], td.gall_writer[user_name="운영자"] {
+	cursor: default !important;
+	pointer-events: none !important;
+}
+.contextmenu,.contextmenu:hover{text-decoration: none;color: inherit;}
+
+/* 나눔 고딕이 로컬에 없을 경우 갤 타이틀 폰트 */
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');

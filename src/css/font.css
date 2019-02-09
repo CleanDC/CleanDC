@@ -1,0 +1,110 @@
+@font-face {
+    font-family: '돋움';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/NanumGothic-Regular.woff2)
+}
+
+@font-face {
+    font-family: '돋움';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../font/NanumGothic-Bold.woff2)
+}
+
+@font-face {
+    font-family: '돋움';
+    font-style: normal;
+    font-weight: 800;
+    src: url(../font/NanumGothic-ExtraBold.woff2)
+}
+
+@font-face {
+    font-family: dotum;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/NanumGothic-Regular.woff2)
+}
+
+@font-face {
+    font-family: dotum;
+    font-style: normal;
+    font-weight: 700;
+    src: url(../font/NanumGothic-Bold.woff2)
+}
+
+@font-face {
+    font-family: dotum;
+    font-style: normal;
+    font-weight: 800;
+    src: url(../font/NanumGothic-ExtraBold.woff2)
+}
+
+@font-face {
+    font-family: '굴림';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/NanumGothic-Regular.woff2)
+}
+
+@font-face {
+    font-family: '굴림';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../font/NanumGothic-Bold.woff2)
+}
+
+@font-face {
+    font-family: '굴림';
+    font-style: normal;
+    font-weight: 800;
+    src: url(../font/NanumGothic-ExtraBold.woff2)
+}
+
+@font-face {
+    font-family: Gulim;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/NanumGothic-Regular.woff2)
+}
+
+@font-face {
+    font-family: Gulim;
+    font-style: normal;
+    font-weight: 700;
+    src: url(../font/NanumGothic-Bold.woff2)
+}
+
+@font-face {
+    font-family: Gulim;
+    font-style: normal;
+    font-weight: 800;
+    src: url(../font/NanumGothic-ExtraBold.woff2)
+}
+
+@font-face {
+    font-family: 'Verdana, 굴림';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/NanumGothic-Regular.woff2)
+}
+
+@font-face {
+    font-family: 'Verdana, 굴림';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../font/NanumGothic-Bold.woff2)
+}
+
+@font-face {
+    font-family: 'Verdana, 굴림';
+    font-style: normal;
+    font-weight: 800;
+    src: url(../font/NanumGothic-ExtraBold.woff2)
+}
+
+/* 	Nanum Gothic (Korean) http://www.google.com/fonts/earlyaccess
+	모든 굴림,돋움체,Verdana를 나눔고딕으로 표시합니다.*/
+.retime {
+    white-space: nowrap !important;
+}
