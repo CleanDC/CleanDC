@@ -1,25 +1,27 @@
 import { Observer, Message, sleep } from '../../utils'
 import _ from 'lodash'
+import querystring from 'querystring'
 
 {
   let rightClickId
   document.addEventListener('mousedown', event => {
     if (event.button !== 2) return
-    const parent = $(event.target).closest('.ub-content').find('.ub-writer')
-    if (!parent.length) return
-    rightClickId = parent.attr('data-uid') || parent.attr('data-ip')
+    const writer = $(event.target).closest('.ub-content').find('.ub-writer')
+    if (!writer.length) return
+    const { uid, ip, nick } = writer.data()
+    rightClickId = uid || ip || nick
   }, true)
   Message.listen('requestTargetId', (payload, sender, res) => res(rightClickId))
 }
 
 class Block {
   constructor ({ check, blacklist }) {
-    const { user, word, regex } = blacklist
+    const { user, word, regex, jjal } = blacklist
     this.cache = {
       user: _.zipObject(user, user),
       word: _.zipObject(word, word),
       regex: regex.map(x => new RegExp(x)),
-      jjal: _.zipObject(word, word),
+      jjal: _.zipObject(jjal, jjal),
     }
     Object.assign(this, // 체크 활성화가 되어있지 않은건 빈함수로 오버라이드
       _(['user', 'word', 'regex', 'jjal'])
@@ -53,8 +55,8 @@ class Block {
 
   user (item) {
     const writer = item.find('.ub-writer')
-    const userInfo = _(['user_name', 'data-nick', 'data-ip', 'data-uid']).map(x => writer.attr(x)).compact().value()
-    const match = _.find(userInfo, x => this.cache.user[x])
+    const { uid, ip, nick } = writer.data()
+    const match = _.find([uid, ip, nick], x => this.cache.user[x])
     if (match) item.addClass('cleandc-block')
     return match
   }
@@ -66,7 +68,7 @@ class Block {
   }
   regex (item) {
     const writer = item.find('.ub-writer')
-    const nick = writer.attr('data-nick')
+    const { nick } = writer.data()
     const match = _.find(this.cache.regex, x => x.test(nick))
     if (match) item.addClass('cleandc-block')
     return match && nick
@@ -77,8 +79,8 @@ class Block {
     await sleep()
     _(fileBox.find('li a')).map($)
       .map(a => ({
-        name: a.text().trim,
-        params: _.chain(a.attr('href')).split('?').get(1).split('&').compact().map(x => x.split('=')).fromPairs().value() // 쿼리스트링 파싱
+        name: a.text(),
+        params: querystring.parse(_(a.attr('href')).split('?').get(1)) // 쿼리스트링 파싱
       }))
       .filter(({ name }) => this.cache.jjal[name])
       .forEach(({ params }) => $(`img[src*=${params.no}],img[onclick*=${params.no}]`).addClass('cleandc-block'))
