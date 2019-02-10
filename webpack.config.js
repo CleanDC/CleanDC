@@ -34,7 +34,7 @@ module.exports = function (env, { mode = 'development' }) {
         development && new ChromeExtensionReloader(),
         new CopyWebpackPlugin([
           './node_modules/jquery/dist/jquery.min.js',
-          './src/manifest.json',
+          './manifest.json',
           { from: './icons/', to: path.resolve(__dirname, 'build', 'icons'), toType: 'dir' }
         ]),
       ],

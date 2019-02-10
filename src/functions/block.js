@@ -1,21 +1,7 @@
-import { Observer, Message } from '../../utils'
+import { Observer, Message, Element } from '../../utils'
 import _ from 'lodash'
 import querystring from 'querystring'
-const sel = {
-  list: 'table.gall_list',
-  row: '.ub-content',
-  writer: '.ub-writer',
-  article: 'div.view_content_wrap',
-  attachment: 'ul.appending_file',
-  comments: 'div.comment_wrap',
-  contextMenu: '.nickname,.ip,b>b'
-}
-const cls = {
-  block: 'cleandc-block',
-  row: 'ub-content',
-  writer: 'ub-writer',
-}
-const tag = { contextMenu: '<a href="javascript:" class="contextmenu"></a>' }
+const { classes: cls, selectors: sel, tag } = Element
 
 class Block {
   constructor ({ check, blacklist }) {
@@ -32,6 +18,12 @@ class Block {
         .map(x => [x, () => {}])
         .fromPairs().value()
     )
+  }
+
+  static create (options) {
+    if (this._block) return this._block
+    this._block = options.then(x => new this(x))
+    return this._block
   }
 
   list (table) {
@@ -76,10 +68,8 @@ class Block {
     if (match) item.addClass(cls.block)
     return match && nick
   }
-  async jjal (article) {
-    const fileBox = await Observer.wait(article, sel.attachment).catch(() => [])
-    if (!fileBox.length) return
-    _(fileBox.find('li a')).map($)
+  jjal (attachment) {
+    _(attachment.find('li a')).map($)
       .map(a => ({
         name: a.text(),
         params: querystring.parse(_(a.attr('href')).split('?').get(1)) // 쿼리스트링 파싱
@@ -103,26 +93,33 @@ export function update (options) {
   const block = new Block(options)
   const article = $(sel.article)
   const table = $(sel.list)
-  $(`.${cls.block}`).removeClass(cls.block)
+  $(sel.block).removeClass(cls.block)
   if (table.length) block.list(table)
   if (article.length) {
     block.article(article)
-    block.comments(article.parent().find(sel.comments))
+    article.find(sel.attachment).each((i, el) => block.jjal($(el)))
+    article.parent().find(sel.comments).each((i, el) => block.comments($(el)))
   }
 }
 
-export default { set, update }
+export function list (list, options) {
+  Block.create(options).then(block => block.list(list, options))
+}
 
-$(document).ready(() => {
-  // context 메뉴 지원 래퍼 추가
-  $(sel.writer).find(sel.contextMenu)
-    .wrapInner(tag.contextMenu)
-  const comments = $(sel.comments)
-  comments.length && Observer.watch(comments, () => {
-    comments.find(sel.writer).find(sel.contextMenu)
-      .wrapInner(tag.contextMenu)
-  })
+export function article (article, options) {
+  Block.create(options).then(block => block.article(article, options))
+}
 
+export function attachment (attachment, options) {
+  Block.create(options).then(block => block.jjal(attachment, options))
+}
+export function comments (comments, options) {
+  Block.create(options).then(block => block.comments(comments, options))
+  comments.find(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
+}
+
+export function ready () {
+  $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
   // 우클릭 한 유저 정보 기억
   let rightClickId
   document.addEventListener('mousedown', event => {
@@ -133,4 +130,6 @@ $(document).ready(() => {
     rightClickId = uid || ip || nick
   }, true)
   Message.listen('requestTargetId', (payload, sender, res) => res(rightClickId))
-})
+}
+
+export default { update, ready, list, article, attachment, comments }
