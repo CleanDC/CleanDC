@@ -6,7 +6,6 @@ const font = style(require('../css/font.css'))
 const cleandc = style(require('../css/cleandc.css'))
 const slimdc = style(require('../css/slimdc.css'))
 
-Observer.wait(document.documentElement, 'head').then(head => head.append(cleandc))
 async function updateStyle (options) {
   const head = await Observer.wait(document.documentElement, 'head')
   if (!options) options = await Message.send('requestOptions')
@@ -23,5 +22,6 @@ async function updateStyle (options) {
 
 export function set (options) { updateStyle(options) }
 export function update (options) { updateStyle(options) }
-
 export default { set, update }
+
+Observer.wait(document.documentElement, 'head').then(head => head.append(cleandc))

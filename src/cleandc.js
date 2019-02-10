@@ -1,6 +1,7 @@
-import { Message, Observer } from '../utils'
+import { Message } from '../utils'
 import style from './functions/style'
 import block from './functions/block'
+import './functions/elementBlock'
 const { $ } = global
 
 function injectHelper () {
@@ -13,25 +14,11 @@ function injectHelper () {
   script.src = chrome.extension.getURL('helper.js')
 }
 
-function contextmenuWrapper () {
-  $('.ub-writer').find('.nickname,.ip')
-    .wrapInner('<a href="javascript:" class="contextmenu"></a>')
-  const wrap = $('.comment_wrap')
-  if (!wrap.length) return
-  Observer.watch(wrap, () => {
-    wrap.find('.ub-writer').find('.nickname,.ip')
-      .wrapInner('<a href="javascript:" class="contextmenu"></a>')
-  })
-}
-
 async function cleandc () {
   const options = await Message.send('requestOptions')
   style.set(options)
   block.set(options)
-  $(document).ready(() => {
-    injectHelper()
-    contextmenuWrapper()
-  })
+  $(document).ready(() => injectHelper())
 }
 cleandc()
 

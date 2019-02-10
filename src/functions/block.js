@@ -1,18 +1,21 @@
-import { Observer, Message, sleep } from '../../utils'
+import { Observer, Message } from '../../utils'
 import _ from 'lodash'
 import querystring from 'querystring'
-
-{
-  let rightClickId
-  document.addEventListener('mousedown', event => {
-    if (event.button !== 2) return
-    const writer = $(event.target).closest('.ub-content').find('.ub-writer')
-    if (!writer.length) return
-    const { uid, ip, nick } = writer.data()
-    rightClickId = uid || ip || nick
-  }, true)
-  Message.listen('requestTargetId', (payload, sender, res) => res(rightClickId))
+const sel = {
+  list: 'table.gall_list',
+  row: '.ub-content',
+  writer: '.ub-writer',
+  article: 'div.view_content_wrap',
+  attachment: 'ul.appending_file',
+  comments: 'div.comment_wrap',
+  contextMenu: '.nickname,.ip,b>b'
 }
+const cls = {
+  block: 'cleandc-block',
+  row: 'ub-content',
+  writer: 'ub-writer',
+}
+const tag = { contextMenu: '<a href="javascript:" class="contextmenu"></a>' }
 
 class Block {
   constructor ({ check, blacklist }) {
@@ -32,7 +35,7 @@ class Block {
   }
 
   list (table) {
-    _(table.find('.ub-content')).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
+    _(table.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
   }
 
   article (article) {
@@ -50,63 +53,84 @@ class Block {
     Observer.watch(wrap, () => this.comments(wrap))
   }
   comments (wrap) {
-    _(wrap.find('.ub-content')).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
+    _(wrap.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
   }
 
   user (item) {
-    const writer = item.find('.ub-writer')
+    const writer = item.find(sel.writer)
     const { uid, ip, nick } = writer.data()
     const match = _.find([uid, ip, nick], x => this.cache.user[x])
-    if (match) item.addClass('cleandc-block')
+    if (match) item.addClass(cls.block)
     return match
   }
   word (item) {
     const text = item.text()
     const match = _.find(this.cache.word, x => text.includes(x))
-    if (match) item.addClass('cleandc-block')
+    if (match) item.addClass(cls.block)
     return match
   }
   regex (item) {
-    const writer = item.find('.ub-writer')
+    const writer = item.find(sel.writer)
     const { nick } = writer.data()
     const match = _.find(this.cache.regex, x => x.test(nick))
-    if (match) item.addClass('cleandc-block')
+    if (match) item.addClass(cls.block)
     return match && nick
   }
   async jjal (article) {
-    const fileBox = await Observer.wait(article, 'ul.appending_file').catch(() => [])
+    const fileBox = await Observer.wait(article, sel.attachment).catch(() => [])
     if (!fileBox.length) return
-    await sleep()
     _(fileBox.find('li a')).map($)
       .map(a => ({
         name: a.text(),
         params: querystring.parse(_(a.attr('href')).split('?').get(1)) // 쿼리스트링 파싱
       }))
       .filter(({ name }) => this.cache.jjal[name])
-      .forEach(({ params }) => $(`img[src*=${params.no}],img[onclick*=${params.no}]`).addClass('cleandc-block'))
+      .forEach(({ params }) => $(`img[src*=${params.no}],img[onclick*=${params.no}]`).addClass(cls.block))
   }
 }
 
 export async function set (options) {
   const body = await Observer.wait(document.documentElement, 'body')
   const block = new Block(options)
-  Observer.wait(body, 'table.gall_list').then(x => block.list(x), () => {})
-  Observer.wait(body, 'div.view_content_wrap').then(article => {
+  Observer.wait(body, sel.list).then(x => block.list(x), () => {})
+  Observer.wait(body, sel.article).then(article => {
     block.article(article) &&
-    Observer.wait(article.parent(), 'div.comment_wrap')
+    Observer.wait(article.parent(), sel.comments)
       .then(x => block.commentsObserve(x), () => {})
   }, () => {})
 }
 export function update (options) {
   const block = new Block(options)
-  const article = $('div.view_content_wrap')
-  const table = $('table.gall_list')
-  $('.cleandc-block').removeClass('cleandc-block')
+  const article = $(sel.article)
+  const table = $(sel.list)
+  $(`.${cls.block}`).removeClass(cls.block)
   if (table.length) block.list(table)
   if (article.length) {
     block.article(article)
-    block.comments(article.parent().find('div.comment_wrap'))
+    block.comments(article.parent().find(sel.comments))
   }
 }
 
 export default { set, update }
+
+$(document).ready(() => {
+  // context 메뉴 지원 래퍼 추가
+  $(sel.writer).find(sel.contextMenu)
+    .wrapInner(tag.contextMenu)
+  const comments = $(sel.comments)
+  comments.length && Observer.watch(comments, () => {
+    comments.find(sel.writer).find(sel.contextMenu)
+      .wrapInner(tag.contextMenu)
+  })
+
+  // 우클릭 한 유저 정보 기억
+  let rightClickId
+  document.addEventListener('mousedown', event => {
+    if (event.button !== 2) return
+    const writer = $(event.target).closest(sel.row).find(sel.writer)
+    if (!writer.length) return
+    const { uid, ip, nick } = writer.data()
+    rightClickId = uid || ip || nick
+  }, true)
+  Message.listen('requestTargetId', (payload, sender, res) => res(rightClickId))
+})

@@ -20,11 +20,6 @@ div#neoScreenMixWiderViewLayer{
 	overflow:hidden !important;
 }
 
-
-td.gall_writer[user_name=" 운영자"], td.gall_writer[user_name="운영자"] {
-	cursor: default !important;
-	pointer-events: none !important;
-}
 .contextmenu,.contextmenu:hover{text-decoration: none;color: inherit;}
 
 /* 나눔 고딕이 로컬에 없을 경우 갤 타이틀 폰트 */

@@ -2,7 +2,7 @@ import { Storage, Message } from '../utils'
 import _ from 'lodash'
 const defaultOptions = {
   blacklist: {
-    word: [], user: [], regex: [], jjal: []
+    word: [], user: ['댓글돌이'], regex: [], jjal: []
   },
   font: true,
   style: 'responsive',
