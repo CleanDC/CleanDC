@@ -19,49 +19,49 @@ function injectHelper () {
   script.src = chrome.extension.getURL('helper.js')
 }
 
-async function head () {
-  const head = await Observer.wait(document.documentElement, 'head')
-  _.invokeMap(functions, 'head', head, options)
+const lifecycle = {
+  async head () {
+    const head = await Observer.wait(document.documentElement, 'head')
+    _.invokeMap(functions, 'head', head, options)
+  },
+  async body () {
+    const body = await Observer.wait(document.documentElement, 'body')
+    _.invokeMap(functions, 'body', body, options)
+    this.list(body).catch(c)
+    this.article(body).catch(c)
+  },
+  async list (body) {
+    const list = await Observer.wait(body, sel.list)
+    _.invokeMap(functions, 'list', list, options)
+  },
+  async article (body) {
+    const article = await Observer.wait(body, sel.article)
+    _.invokeMap(functions, 'article', article, options)
+    this.comments(article).catch(c)
+    this.attachment(article).catch(c)
+  },
+  async attachment (article) {
+    const attachment = await Observer.wait(article, sel.attachment)
+    _.invokeMap(functions, 'attachment', attachment, options)
+  },
+  async comments (article) {
+    const comments = await Observer.wait(article.parent(), sel.comments)
+    _.invokeMap(functions, 'comments', comments, options)
+    Observer.watch(comments, () => _.invokeMap(functions, 'comments', comments, options))
+  },
+  async ready () {
+    await new Promise(resolve => $(document).ready(resolve))
+    injectHelper()
+    _.invokeMap(functions, 'ready', options)
+  },
+  update () {
+    Message.listen('optionsUpdated', options => {
+      _.invokeMap(functions, 'update', options)
+    })
+  }
 }
-async function body () {
-  const body = await Observer.wait(document.documentElement, 'body')
-  _.invokeMap(functions, 'body', body, options)
-  list(body).catch(c)
-  article(body).catch(c)
-}
-async function list (body) {
-  const list = await Observer.wait(body, sel.list)
-  _.invokeMap(functions, 'list', list, options)
-}
-async function article (body) {
-  const article = await Observer.wait(body, sel.article)
-  _.invokeMap(functions, 'article', article, options)
-  comments(article).catch(c)
-  attachment(article).catch(c)
-}
-async function attachment (article) {
-  const attachment = await Observer.wait(article, sel.attachment)
-  _.invokeMap(functions, 'attachment', attachment, options)
-}
-async function comments (article) {
-  const comments = await Observer.wait(article.parent(), sel.comments)
-  _.invokeMap(functions, 'comments', comments, options)
-  Observer.watch(comments, () => _.invokeMap(functions, 'comments', comments, options))
-}
-async function ready () {
-  await new Promise(resolve => $(document).ready(resolve))
-  injectHelper()
-  _.invokeMap(functions, 'ready', options)
-}
-async function update () {
-  Message.listen('optionsUpdated', options => {
-    _.invokeMap(functions, 'update', options)
-  })
-}
-function lifecycle () {
-  head()
-  body()
-  ready()
-  update()
-}
-lifecycle()
+
+lifecycle.head()
+lifecycle.body()
+lifecycle.ready()
+lifecycle.update()

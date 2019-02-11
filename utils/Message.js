@@ -39,9 +39,9 @@ export async function sendAllTabs (name, payload) {
   const tabs = await getAllTabs()
   return Promise.all(tabs.map(tab => sendTab(name, tab.id, payload)))
 }
-export async function sendActiveTab (name, payload) {
+export async function sendActiveTabs (name, payload) {
   const tabs = await getAllTabs()
-  return Promise.all(tabs.filter(tab => tab.active).forEach(tab => sendTab(name, tab.id, payload)))
+  return Promise.all(tabs.filter(tab => tab.active).map(tab => sendTab(name, tab.id, payload)))
 }
 
 export default {
@@ -49,5 +49,5 @@ export default {
   send,
   sendTab,
   sendAllTabs,
-  sendActiveTab
+  sendActiveTabs
 }
