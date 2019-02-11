@@ -2,7 +2,7 @@ __webpack_public_path__ = window.chrome.extension.getURL('') // eslint-disable-l
 const style = css => $(`<style type="text/css">${css}</style>`)
 const font = style(require('../css/font.css'))
 const cleandc = style(require('../css/cleandc.css'))
-const slimdc = style(require('../css/slimdc.css'))
+const slimdc = style(require('../css/slimdc.scss'))
 
 async function updateStyle (head, options) {
   const { style } = options

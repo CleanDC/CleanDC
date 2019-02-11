@@ -12,7 +12,8 @@ module.exports = function (env, { mode = 'development' }) {
     module: {
       rules: [
         { test: /\.vue$/, loader: 'vue-loader' },
-        { test: /\.css$/, exclude: path.resolve(__dirname, 'src'), loader: 'vue-style-loader' },
+        { test: /\.(css|scss)$/, exclude: path.resolve(__dirname, 'src'), loader: 'vue-style-loader' },
+        { test: /\.scss$/, loader: 'css-loader!sass-loader' },
         { test: /\.css$/, loader: 'css-loader' },
         { test: /\.(png|woff2|svg|jpg|gif)$/, loader: 'file-loader?outputPath=files/' }
       ],

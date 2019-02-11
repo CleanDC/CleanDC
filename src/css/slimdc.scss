@@ -1,0 +1,28 @@
+#search_wrap,.dc_logo{display: none;}
+.dchead{height:6px;}
+.gnb_bar{display:none;}
+.listwrap .issuebox .concept_wrap{display:none;}
+.right_content{display:none;}
+body {
+    .list_wrap, .view_wrap{min-width:840px;}
+    .wrap_inner{width:840px;}
+}
+.width1160 .dchead, .width1160 .gnb, .width1160 #container, .width1160 .info_policy, .width1160 .copyright {
+    width: 840px;
+}
+.visit_list {
+    width: 680px;
+    li a {width: 107px;}
+}
+.dc_all{display:none;}
+#write_wrap { padding: 0; border: none; }
+.visit_history{width: 814px;}
+
+.cmt_nickbox {margin-right: 3px;width: 110px;}
+.usertxt, .comment_wrap .comment_dccon {width: 610px;}
+.reply {
+    .cmt_nickbox {margin-right: 3px;width: 110px;}
+    .usertxt, .comment_wrap .comment_dccon {width: 540px;}
+}
+.cmt_txt_cont textarea{width: 634px;}
+.cmt_write_box.small .cmt_txt_cont textarea{width: 602px;}
