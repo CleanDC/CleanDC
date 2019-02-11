@@ -50,6 +50,7 @@ class Block {
 
   user (item) {
     const writer = item.find(sel.writer)
+    if (!writer.length) return
     const { uid, ip, nick } = writer.data()
     const match = _.find([uid, ip, nick], x => this.cache.user[x])
     if (match) item.addClass(cls.block)
@@ -63,6 +64,7 @@ class Block {
   }
   regex (item) {
     const writer = item.find(sel.writer)
+    if (!writer.length) return
     const { nick } = writer.data()
     const match = _.find(this.cache.regex, x => x.test(nick))
     if (match) item.addClass(cls.block)
