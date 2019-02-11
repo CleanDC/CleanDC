@@ -103,6 +103,7 @@ export function update (options) {
 }
 
 export function list (list, options) {
+  $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
   Block.create(options).then(block => block.list(list, options))
 }
 
@@ -119,7 +120,6 @@ export function comments (comments, options) {
 }
 
 export function ready () {
-  $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
   // 우클릭 한 유저 정보 기억
   let rightClickId
   document.addEventListener('mousedown', event => {
