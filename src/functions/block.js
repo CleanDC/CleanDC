@@ -81,16 +81,6 @@ class Block {
   }
 }
 
-export async function set (options) {
-  const body = await Observer.wait(document.documentElement, 'body')
-  const block = new Block(options)
-  Observer.wait(body, sel.list).then(x => block.list(x), () => {})
-  Observer.wait(body, sel.article).then(article => {
-    block.article(article) &&
-    Observer.wait(article.parent(), sel.comments)
-      .then(x => block.commentsObserve(x), () => {})
-  }, () => {})
-}
 export function update (options) {
   const block = new Block(options)
   const article = $(sel.article)
