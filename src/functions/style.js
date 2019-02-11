@@ -15,9 +15,11 @@ async function updateStyle (head, options) {
   if (options.font) head.append(font)
   else font.detach()
 }
-export function update (options) { updateStyle($('head'), options) }
-export async function head (head, options) {
-  head.append(cleandc)
-  updateStyle(head, await options)
+
+export default {
+  async  head (head, options) {
+    head.append(cleandc)
+    updateStyle(head, await options)
+  },
+  update (options) { updateStyle($('head'), options) }
 }
-export default { head, update }

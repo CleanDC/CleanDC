@@ -81,47 +81,43 @@ class Block {
   }
 }
 
-export function update (options) {
-  const block = new Block(options)
-  const article = $(sel.article)
-  const table = $(sel.list)
-  $(sel.block).removeClass(cls.block)
-  if (table.length) block.list(table)
-  if (article.length) {
-    block.article(article)
-    article.find(sel.attachment).each((i, el) => block.jjal($(el)))
-    article.parent().find(sel.comments).each((i, el) => block.comments($(el)))
+export default {
+  update (options) {
+    const block = new Block(options)
+    const article = $(sel.article)
+    const table = $(sel.list)
+    $(sel.block).removeClass(cls.block)
+    if (table.length) block.list(table)
+    if (article.length) {
+      block.article(article)
+      article.find(sel.attachment).each((i, el) => block.jjal($(el)))
+      article.parent().find(sel.comments).each((i, el) => block.comments($(el)))
+    }
+  },
+  list (list, options) {
+    $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
+    Block.create(options).then(block => block.list(list, options))
+  },
+  article (article, options) {
+    Block.create(options).then(block => block.article(article, options))
+  },
+  attachment (attachment, options) {
+    Block.create(options).then(block => block.jjal(attachment, options))
+  },
+  comments (comments, options) {
+    Block.create(options).then(block => block.comments(comments, options))
+    comments.find(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
+  },
+  ready () {
+  // 우클릭 한 유저 정보 기억
+    let rightClickId
+    document.addEventListener('mousedown', event => {
+      if (event.button !== 2) return
+      const writer = $(event.target).closest(sel.row).find(sel.writer)
+      if (!writer.length) return
+      const { uid, ip, nick } = writer.data()
+      rightClickId = uid || ip || nick
+    }, true)
+    Message.listen('requestTargetId', (payload, sender, res) => res(rightClickId))
   }
 }
-
-export function list (list, options) {
-  $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
-  Block.create(options).then(block => block.list(list, options))
-}
-
-export function article (article, options) {
-  Block.create(options).then(block => block.article(article, options))
-}
-
-export function attachment (attachment, options) {
-  Block.create(options).then(block => block.jjal(attachment, options))
-}
-export function comments (comments, options) {
-  Block.create(options).then(block => block.comments(comments, options))
-  comments.find(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
-}
-
-export function ready () {
-  // 우클릭 한 유저 정보 기억
-  let rightClickId
-  document.addEventListener('mousedown', event => {
-    if (event.button !== 2) return
-    const writer = $(event.target).closest(sel.row).find(sel.writer)
-    if (!writer.length) return
-    const { uid, ip, nick } = writer.data()
-    rightClickId = uid || ip || nick
-  }, true)
-  Message.listen('requestTargetId', (payload, sender, res) => res(rightClickId))
-}
-
-export default { update, ready, list, article, attachment, comments }
