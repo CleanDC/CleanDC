@@ -1,7 +1,8 @@
+import { selectors as sel } from '../utils/Element'
 const style = css => $(`<style type="text/css">${css}</style>`)
-$('head').append(style(require('./helper.css')))
+$(document.head).append(style(require('./helper.css')))
 
-if (document.querySelector('div.editor_wrap')) { // 에디터일때
+if (document.querySelector(sel.editor)) { // 에디터일때
   require('./gjjal')
-  if (document.querySelector('#write')) require('./saveArticle') // 새글 쓰기일때
+  if (document.querySelector(sel.write)) require('./saveArticle') // 새글 쓰기일때
 }

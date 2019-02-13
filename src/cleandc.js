@@ -11,9 +11,9 @@ const c = () => {}
 
 function injectHelper () {
   const script = document.createElement('script')
-  $('body').append(script)
+  $(document.body).append(script)
   script.onload = async function () {
-    if (!$('div.editor_wrap').length) return // 에디터일때 helper/gjjal과 통신
+    if (!$(sel.editor).length) return // 에디터일때 helper/gjjal과 통신
     window.postMessage({ gjjal: await Message.send('requestGjjal') })
   }
   script.src = chrome.extension.getURL('helper.js')

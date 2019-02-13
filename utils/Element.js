@@ -5,6 +5,8 @@ export const selectors = {
   article: 'div.view_content_wrap',
   attachment: 'ul.appending_file',
   comments: 'div.comment_wrap',
+  editor: 'div.editor_wrap',
+  write: '#write',
   contextMenuTarget: '.nickname,.ip,b>b',
   block: '.cleandc-block',
 }
