@@ -4,7 +4,6 @@ import block from './functions/block'
 import elementBlock from './functions/elementBlock'
 import _ from 'lodash'
 const options = Message.send('requestOptions')
-const { $ } = global
 const functions = [style, block, elementBlock]
 const { selectors: sel } = Element
 const c = () => {}

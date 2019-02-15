@@ -1,4 +1,4 @@
-import { Observer, Message, Element } from '../../utils'
+import { Message, Element } from '../../utils'
 import _ from 'lodash'
 import querystring from 'querystring'
 const { classes: cls, selectors: sel, tag } = Element
@@ -7,10 +7,10 @@ class Block {
   constructor ({ check, blacklist }) {
     const { user, word, regex, jjal } = blacklist
     this.cache = {
-      user: _.zipObject(user, user),
-      word: _.zipObject(word, word),
+      user: _.mapKeys(user),
+      word: _.mapKeys(word),
       regex: regex.map(x => new RegExp(x)),
-      jjal: _.zipObject(jjal, jjal),
+      jjal: _.mapKeys(jjal),
     }
     Object.assign(this, // 체크 활성화가 되어있지 않은건 빈함수로 오버라이드
       _(['user', 'word', 'regex', 'jjal'])
@@ -29,7 +29,6 @@ class Block {
   list (table) {
     _(table.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
   }
-
   article (article) {
     const onMatch = msg => {
       alert(msg)
@@ -40,9 +39,6 @@ class Block {
     if (this.word(article)) return onMatch('차단된 키워드가 있는 글입니다.')
     if (this.regex(article)) return onMatch('정규식 차단된 작성자의 게시물입니다.')
     return true
-  }
-  commentsObserve (wrap) {
-    Observer.watch(wrap, () => this.comments(wrap))
   }
   comments (wrap) {
     _(wrap.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
