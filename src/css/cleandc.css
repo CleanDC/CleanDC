@@ -22,9 +22,6 @@ div#neoScreenMixWiderViewLayer{
 
 .contextmenu,.contextmenu:hover{text-decoration: none;color: inherit;}
 
-/* 나눔 고딕이 로컬에 없을 경우 갤 타이틀 폰트 */
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
-
 /* 여기서부턴 스타일 보정 */
 .list_wrap, .view_wrap {min-width: 0;}
 .wrap_inner {width: auto;}
