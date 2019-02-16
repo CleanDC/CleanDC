@@ -1,10 +1,7 @@
 import { Message, Observer, Element } from '../utils'
-import style from './functions/style'
-import block from './functions/block'
-import elementBlock from './functions/elementBlock'
+import * as functions from './functions'
 import _ from 'lodash'
 const options = Message.send('requestOptions')
-const functions = [style, block, elementBlock]
 const { selectors: sel } = Element
 const c = () => {}
 
