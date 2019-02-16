@@ -1,11 +1,12 @@
 <template>
-  <div class="chips" @click="click">
+  <div class="chips" @mousedown="mousedown" @mouseup="mouseup">
     <mu-chip v-if="!list.length" class="chip">비어있음</mu-chip>
     <mu-chip
       v-for="(item,idx) of list"
       :key="item"
-      :ref="idx"
+      ref="chips"
       class="chip"
+      :idx="idx"
       :delete="!editing||focus!==idx"
       :contenteditable="focus===idx"
       @input="editing=true"
@@ -15,11 +16,11 @@
       @keydown.esc="cancel($event,idx)"
       @keydown.delete="del($event,idx)"
       @keydown.enter.prevent="enter($event,idx)"
-      @click.native.stop
+      @mousedown.native.stop="insertTo=null"
     >
       {{ item }}
     </mu-chip>
-    <mu-chip style="position:absolute" @focus="create(list.length-1)" />
+    <mu-chip style="position:absolute" @focus="insert(list.length-1)" />
   </div>
 </template>
 <script>
@@ -30,18 +31,29 @@ export default {
   data () {
     return {
       focus: null,
+      insertTo: null,
       list: _(this.chips).uniq().compact().value(),
       editing: false,
     }
   },
+  computed: {
+    listCompact () { return this.list.filter(x => x) }
+  },
   watch: {
+    listCompact (n, o) {
+      if (_.isEqual(n, o)) return
+      this.$emit('update:chips', n)
+    },
+    async list (v) {
+      await this.$nextTick()
+      this.$refs.chips.sort((a, b) => a.$attrs.idx - b.$attrs.idx) // 순서를 idx로 정렬
+    },
     async focus (v, o) {
       if (v === null) return
       await this.$nextTick() // 엘리먼트 생성 대기
-      const item = this.$refs[v]
-      if (item) item[0].$el.focus()
+      const item = this.$refs.chips[v]
+      if (item) item.$el.focus()
     },
-    list (v) { this.$emit('update:chips', this.list.slice()) }
   },
   methods: {
     blur ($evt, idx) {
@@ -71,20 +83,24 @@ export default {
       $evt.target.blur()
       this.focus = idx - 1
     },
-    async create (idx) {
+    async insert (idx) {
       this.list.splice(idx + 1, 0, '')
       this.focus = idx + 1
       await this.$nextTick() // blur 대기
       this.editing = true
     },
-    click ($evt) {
+    mousedown ($evt) {
       const { offsetX: x, offsetY: y } = $evt
-      const { idx = -1 } = _.chain(this.list.length).times()
-        .map(x => this.$refs[x])
-        .map(x => x[0].$el)
-        .map((x, idx) => ({ idx, l: x.offsetLeft, t: x.offsetTop }))
+      let { idx = -1 } = _.chain(this.$refs.chips)
+        .map('$el')
+        .map((el, idx) => ({ idx, l: el.offsetLeft, t: el.offsetTop }))
         .findLast(({ l, t }) => l < x && t < y).value() || {}
-      this.create(idx)
+      const emptyIdx = this.list.indexOf('') // 빈아이템은 없어질 아이템이기 때문에 빼줌
+      if (emptyIdx > -1 && idx > emptyIdx) idx--
+      this.insertTo = idx
+    },
+    mouseup ($evt) {
+      if (this.insertTo !== null) this.insert(this.insertTo)
     },
     async enter ($evt, idx) {
       const el = $evt.target
@@ -92,10 +108,10 @@ export default {
       el.blur()
       $evt.preventDefault()
       await this.$nextTick()
-      this.create(idx - (length - this.list.length))
+      this.insert(idx - (length - this.list.length))
     },
     remove (idx) {
-      const el = this.$refs[idx][0].$el
+      const el = this.$refs.chips[idx].$el
       el.innerText = ''
       el.blur() //  blur를 태워서 지워지게 해야함. 블러에서 값을 쓰기 때문
     },
