@@ -2,7 +2,7 @@
   <mu-paper v-if="options" :z-depth="3" class="options">
     <mu-appbar style="width: 100%;" color="primary">
       <img src="./assets/title.png" class="title">
-      <mu-button slot="right" icon @click="github">
+      <mu-button slot="right" icon :href="github" target="_blank">
         <mu-icon value=":fab fa-github" />
       </mu-button>
     </mu-appbar>
@@ -22,6 +22,9 @@ export default {
   name: 'Options',
   components: { SideNav },
   data () { return { options: null } },
+  computed: {
+    github () { return packageJson.homepage },
+  },
   async created () {
     this.options = await Storage.get('options')
     this.$watch('options', v => {
@@ -31,7 +34,6 @@ export default {
   },
   methods: {
     update (path, value) { _.set(this.options, path, value) },
-    github () { window.open(packageJson.homepage, '_blank') },
   },
 }
 </script>

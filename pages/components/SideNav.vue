@@ -28,13 +28,13 @@
     </mu-list>
     <mu-divider />
     <mu-list>
-      <mu-list-item button @click="store">
+      <mu-list-item button :href="store" target="_blank">
         <mu-list-item-title>웹 스토어</mu-list-item-title>
         <mu-list-item-action>
-          <img src="../assets/market.svg" width="22">
+          <img src="../assets/market.svg" width="20">
         </mu-list-item-action>
       </mu-list-item>
-      <mu-list-item button @click="issue">
+      <mu-list-item button :href="issue" target="_blank">
         <mu-list-item-title>문제 제보</mu-list-item-title>
         <mu-list-item-action>
           <mu-icon value="info" />
@@ -47,10 +47,10 @@
 import packageJson from '../../package.json'
 export default {
   name: 'SideNav',
-  methods: {
-    store () { window.open(`https://chrome.google.com/webstore/detail/${chrome.runtime.id}`, '_blank') },
-    issue () { window.open(packageJson.bugs.url, '_blank') }
-  },
+  computed: {
+    store () { return `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` },
+    issue () { return packageJson.bugs.url }
+  }
 }
 </script>
 <style scoped>

@@ -13,10 +13,10 @@ module.exports = {
     'comma-dangle': 0,
     'vue/require-prop-types': 'off',
     'vue/max-attributes-per-line': ["error", {
-      "singleline": 3,
+      "singleline": 4,
       "multiline": {
-        "max": 1,
-        "allowFirstLine": false
+        "max": 4,
+        "allowFirstLine": true
       }
     }],
     'vue/singleline-html-element-content-newline': 'off',
