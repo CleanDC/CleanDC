@@ -27,22 +27,21 @@ const lifecycle = {
     this.article(body).catch(c)
   },
   async list (body) {
-    const list = await Observer.wait(body, sel.list)
+    const list = await Observer.wait(body, sel.list, { next: true }) // 다음 요소 그려질때까지 대기
     _.invokeMap(functions, 'list', list, options)
   },
   async article (body) {
-    const article = await Observer.wait(body, sel.article)
+    const article = await Observer.wait(body, sel.article, { next: true }) // 다음 요소 그려질때까지 대기
     _.invokeMap(functions, 'article', article, options)
     this.comments(article).catch(c)
     this.attachment(article).catch(c)
   },
-  async attachment (article) {
-    const attachment = await Observer.wait(article, sel.attachment)
+  attachment (article) {
+    const attachment = article.find(sel.attachment) // article 내부에 있고 다 그려진 시점이기 때문에 동기로 찾음
     _.invokeMap(functions, 'attachment', attachment, options)
   },
   async comments (article) {
     const comments = await Observer.wait(article.parent(), sel.comments)
-    _.invokeMap(functions, 'comments', comments, options)
     Observer.watch(comments, () => _.invokeMap(functions, 'comments', comments, options))
   },
   async ready () {

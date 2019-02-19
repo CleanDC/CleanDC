@@ -7,7 +7,7 @@ export function watch (target, cb, options = { childList: true }) {
   }).observe(element.get(0), options)
 }
 
-export function wait (parent, selector, timeout) {
+export function wait (parent, selector, { next, timeout } = {}) {
   parent = $(parent)
   const target = parent.find(selector)
   if (target.length) return Promise.resolve(target)
@@ -20,7 +20,7 @@ export function wait (parent, selector, timeout) {
     }
     if (!added) return
     const target = parent.find(selector)
-    if (!target.length) return
+    if (!target.length || (next && !target.next()[0])) return
     deferred.resolve(target)
   })
 
