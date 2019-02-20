@@ -1,4 +1,4 @@
-import { Message, Observer, Element } from '../utils'
+import { Message, Observer, Element, sleep } from '../utils'
 import * as functions from './functions'
 import _ from 'lodash'
 const options = Message.send('requestOptions')
@@ -27,22 +27,19 @@ const lifecycle = {
     this.article(body).catch(c)
   },
   async list (body) {
-    const list = await Observer.wait(body, sel.list, { next: true }) // 다음 요소 그려질때까지 대기, 글내용에선 다음요소 없어서 작동안함
+    const list = await Observer.wait(body, sel.list)
+    await sleep()
     _.invokeMap(functions, 'list', list, options)
   },
-  async listWrap (body) { // listWrap은 내용이든 리스트든 다음요소 있음
-    const listWrap = await Observer.wait(body, sel.listWrap, { next: true })
-    _.invokeMap(functions, 'list', listWrap.find(sel.list), options)
-  },
   async article (body) {
-    const article = await Observer.wait(body, sel.article, { next: true }) // 다음 요소 그려질때까지 대기
+    const article = await Observer.wait(body, sel.article)
+    await sleep()
     _.invokeMap(functions, 'article', article, options)
     this.comments(article).catch(c)
     this.attachment(article).catch(c)
-    this.listWrap(body).catch(c)
   },
   async attachment (article) {
-    const attachment = article.find(sel.attachment) // article 내부에 있고 다 그려진 시점이기 때문에 동기로 찾음
+    const attachment = await Observer.wait(article, sel.attachment)
     _.invokeMap(functions, 'attachment', attachment, options)
   },
   async comments (article) {

@@ -1,6 +1,5 @@
 export const selectors = {
-  list: 'table.gall_list',
-  listWrap: '.gall_listwrap',
+  list: 'table.gall_list tbody',
   row: '.ub-content',
   writer: '.ub-writer',
   article: 'div.view_content_wrap',

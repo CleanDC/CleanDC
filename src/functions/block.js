@@ -30,10 +30,10 @@ class Block {
     _(table.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
   }
   article (article) {
-    const onMatch = msg => setTimeout(() => {
+    const onMatch = msg => {
       alert(msg)
       window.history.back()
-    }, 300)
+    }
     this.jjal(article)
     if (this.user(article)) return onMatch('차단된 작성자의 게시물입니다.')
     if (this.word(article)) return onMatch('차단된 키워드가 있는 글입니다.')
