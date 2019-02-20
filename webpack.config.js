@@ -29,7 +29,8 @@ module.exports = function (env, { mode = 'development' }) {
     base({
       entry: {
         background: './src/background.js',
-        cleandc: './src/cleandc.js'
+        cleandc: './src/cleandc.js',
+        sw: './src/sw.js',
       },
       plugins: [
         development && new ChromeExtensionReloader(),

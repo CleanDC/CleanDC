@@ -1,5 +1,6 @@
-import { Storage, Message } from '../utils'
+import { Storage, Message, Notification } from '../utils'
 import _ from 'lodash'
+import messaging from '../utils/Fcm'
 const defaultOptions = {
   blacklist: {
     word: [], user: ['댓글돌이'], regex: [], jjal: []
@@ -71,6 +72,8 @@ createContextMenu(
     alert(`${id}가 차단 유저 리스트에서 제거 되었습니다.`)
   })
 
+navigator.serviceWorker.register('sw.js')
+messaging.onMessage(({ data }) => Notification.create(null, null, data))
 Message.listen('requestGjjal', (pl, sdr, res) => res(JSON.parse(localStorage.gjjal || '{}')))
 Message.listen('requestOptions', (pl, sdr, res) => Storage.get('options').then(res))
 Message.listen('optionsUpdated', options => Message.sendAllTabs('optionsUpdated', options))
