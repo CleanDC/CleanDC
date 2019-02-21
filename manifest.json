@@ -1,5 +1,5 @@
 {
-  "version": "4.0.7",
+  "version": "4.0.8",
   "version_name": "4.0.0-beta",
   "author": "Sunny Holic",
   "background": {
@@ -22,8 +22,8 @@
         "cleandc.js"
       ],
       "matches": [
-        "http://gall.dcinside.com/*/*",
-        "http://job.dcinside.com/*/*"
+        "*://gall.dcinside.com/*/*",
+        "*://job.dcinside.com/*/*"
       ],
       "run_at": "document_start"
     }

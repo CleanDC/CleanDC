@@ -41,7 +41,7 @@ function createContextMenu (title, onclick) {
   chrome.contextMenus.create({
     title,
     contexts: ['link'],
-    documentUrlPatterns: ['http://gall.dcinside.com/*', 'http://job.dcinside.com/*'],
+    documentUrlPatterns: ['*://gall.dcinside.com/*', '*://job.dcinside.com/*'],
     onclick
   })
 }
@@ -76,5 +76,5 @@ Message.listen('requestOptions', (pl, sdr, res) => Storage.get('options').then(r
 Message.listen('optionsUpdated', options => Message.sendAllTabs('optionsUpdated', options))
 // 팝업을 표시할 조건
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  /http:\/\/(gall|job).dcinside.com\/.+\/.+/.test(tab.url) && chrome.pageAction.show(tabId)
+  /https?:\/\/(gall|job).dcinside.com\/.+\/.+/.test(tab.url) && chrome.pageAction.show(tabId)
 })
