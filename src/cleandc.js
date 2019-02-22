@@ -28,7 +28,10 @@ const lifecycle = {
   },
   async list (body) {
     const list = await Observer.wait(body, sel.list)
-    await sleep()
+    for (let i = 0; i < 2; i++) {
+      if (list.find(sel.row).length > 1) break
+      await sleep()
+    }
     _.invokeMap(functions, 'list', list, options)
   },
   async article (body) {
