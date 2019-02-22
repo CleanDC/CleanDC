@@ -4,7 +4,7 @@ import querystring from 'querystring'
 const { classes: cls, selectors: sel, tag } = Element
 
 class Block {
-  constructor ({ check, blacklist }) {
+  constructor ({ check, blacklist, blockUdong }) {
     const { user, word, regex, jjal } = blacklist
     this.cache = {
       user: _.mapKeys(user),
@@ -16,7 +16,8 @@ class Block {
       _(['user', 'word', 'regex', 'jjal'])
         .filter(x => !check[x])
         .map(x => [x, () => {}])
-        .fromPairs().value()
+        .fromPairs().value(),
+      { blockUdong }
     )
   }
 
@@ -48,23 +49,21 @@ class Block {
     const writer = item.find(sel.writer)
     if (!writer.length) return
     const { uid, ip, nick } = writer.data()
+    if (this.blockUdong && ip) return item.addClass(cls.block)
     const match = _.find([uid, ip, nick], x => this.cache.user[x])
-    if (match) item.addClass(cls.block)
-    return match
+    return match && item.addClass(cls.block)
   }
   word (item) {
     const text = item.text()
     const match = _.find(this.cache.word, x => text.includes(x))
-    if (match) item.addClass(cls.block)
-    return match
+    return match && item.addClass(cls.block)
   }
   regex (item) {
     const writer = item.find(sel.writer)
     if (!writer.length) return
     const { nick } = writer.data()
     const match = _.find(this.cache.regex, x => x.test(nick))
-    if (match) item.addClass(cls.block)
-    return match && nick
+    return match && item.addClass(cls.block)
   }
   jjal (attachment) {
     _(attachment.find('li a')).map($)

@@ -6,7 +6,7 @@
       <mu-switch v-model="options.clickAnimation" />
     </div>
     <div class="switch">
-      유동 차단 (준비중)
+      유동 차단
       <mu-switch v-model="options.blockUdong" />
     </div>
     <div class="switch">
