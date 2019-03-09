@@ -101,7 +101,9 @@ export default {
       this.insertTo = idx
     },
     mouseup ($evt) {
-      if (this.insertTo !== null) this.insert(this.insertTo)
+      if (this.insertTo === null) return
+      if (this.insertTo >= this.list.length) this.insertTo = this.list.length - 1
+      this.insert(this.insertTo)
     },
     async enter ($evt, idx) {
       const el = $evt.target
