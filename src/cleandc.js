@@ -28,7 +28,7 @@ const lifecycle = {
   },
   async list (body) {
     const list = await Observer.wait(body, sel.list)
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       if (list.find(sel.row).length > 1) break
       await sleep()
     }

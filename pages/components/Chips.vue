@@ -17,6 +17,7 @@
       @keydown.delete="del($event,idx)"
       @keydown.enter.prevent="enter($event,idx)"
       @mousedown.native.stop="insertTo=null"
+      @paste.prevent="paste($event,idx)"
     >
       {{ item }}
     </mu-chip>
@@ -100,7 +101,9 @@ export default {
       this.insertTo = idx
     },
     mouseup ($evt) {
-      if (this.insertTo !== null) this.insert(this.insertTo)
+      if (this.insertTo === null) return
+      if (this.insertTo >= this.list.length) this.insertTo = this.list.length - 1
+      this.insert(this.insertTo)
     },
     async enter ($evt, idx) {
       const el = $evt.target
@@ -119,6 +122,17 @@ export default {
       const el = $evt.target
       el.innerText = this.list[idx]
       el.blur()
+    },
+    async paste ($evt, idx) {
+      const [paste, ...rest] = $evt.clipboardData.getData('text').split(/[\n]/)
+      const selection = window.getSelection()
+      const range = selection.getRangeAt(0)
+      selection.deleteFromDocument()
+      range.insertNode(document.createTextNode(paste))
+      if (rest.length) {
+        $evt.target.blur()
+        this.list.splice(idx + 1, 0, ..._(rest).uniq().difference(this.list).value())
+      }
     }
   }
 }
