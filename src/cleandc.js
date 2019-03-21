@@ -3,7 +3,7 @@ import * as functions from './functions'
 import _ from 'lodash'
 const options = Message.send('requestOptions')
 const { selectors: sel } = Element
-const c = () => {}
+const c = process.env.NODE_ENV === 'development' ? e => console.error(e) : () => {}
 
 function injectHelper () {
   const script = document.createElement('script')

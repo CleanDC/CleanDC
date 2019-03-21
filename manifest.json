@@ -7,6 +7,7 @@
       "background.js"
     ]
   },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "page_action": {
     "default_icon": {
       "19": "icons/icon19.png",
@@ -43,11 +44,14 @@
     "storage",
     "webRequest",
     "webRequestBlocking",
+    "*://*.dcinside.com/*",
+    "*://*.dcinside.co.kr/*",
     "tabs",
     "notifications"
   ],
   "web_accessible_resources": [
     "helper.js",
+    "assets/**",
     "*.png",
     "*.woff2"
   ],
