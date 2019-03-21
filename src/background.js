@@ -34,8 +34,22 @@ async function initOptions () {
   _.forEach([ 'chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick' ], x => _.unset(options, x))
   return Storage.set('options', _.merge(defaultOptions, options)) // 있으면 이전 옵션을 저장
 }
+async function nsfw () {
+  const model = await require('nsfwjs').load(chrome.extension.getURL('assets/nsfw/'))
+  Message.listen('nsfw', async (pl, sdr, res) => {
+    const image = new Image()
+    image.src = pl
+    try {
+      await new Promise((onload, onerror) => Object.assign(image, { onload, onerror })) // eslint-disable-line promise/param-names
+      res(await model.classify(image))
+    } catch (e) {
+      res(null)
+    }
+  })
+}
 
 initOptions()
+nsfw()
 
 function createContextMenu (title, onclick) {
   chrome.contextMenus.create({
