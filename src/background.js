@@ -7,17 +7,24 @@ const defaultOptions = {
   font: true,
   style: 'responsive',
   check: {
-    user: false,
+    user: true,
     word: false,
     jjal: false,
     regex: false,
+  },
+  nsfw: {
+    enable: true,
+    drawing: 50,
+    hentai: 50,
+    porn: 50,
+    sexy: 50
   },
   clickAnimation: false,
   blockUdong: false
 }
 async function initOptions () {
   let options = await Storage.get('options')
-  if (options) return
+  if (options) return Storage.set('options', _.merge(defaultOptions, options))
   const setting = await Storage.get('setting') // 이전 옵션 찾음
   try { options = JSON.parse(setting) } catch (e) { return Storage.set('options', defaultOptions) }
   // 구버전 옵션 변경
@@ -34,6 +41,8 @@ async function initOptions () {
   _.forEach([ 'chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick' ], x => _.unset(options, x))
   return Storage.set('options', _.merge(defaultOptions, options)) // 있으면 이전 옵션을 저장
 }
+initOptions()
+
 async function nsfw () {
   const model = await require('nsfwjs').load(chrome.extension.getURL('assets/nsfw/'))
   Message.listen('nsfw', async (pl, sdr, res) => {
@@ -47,8 +56,6 @@ async function nsfw () {
     }
   })
 }
-
-initOptions()
 nsfw()
 
 function createContextMenu (title, onclick) {
