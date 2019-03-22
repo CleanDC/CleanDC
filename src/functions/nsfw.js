@@ -16,7 +16,8 @@ const check = async function (article, options) {
   _(article
     .find(sel.articleContent)
     .find('img:not(.nsfw-checked)')
-    .addClass('nsfw-checked'))
+    .addClass('nsfw-checked')
+    .removeClass('sfw'))
     .map($)
     .forEach(async img => {
       img.one('contextmenu', evt => {
@@ -53,7 +54,7 @@ export default {
   update (options) {
     const article = $(sel.article)
     if (!article.length) return
-    $('img.sfw').removeClass('sfw')
+    article.find('img.nsfw-checked').removeClass('nsfw-checked')
     if (options.nsfw.enable) {
       $('head').append(css)
       check(article, options)
