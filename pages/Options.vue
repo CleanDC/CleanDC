@@ -33,7 +33,7 @@ export default {
       this.message = '저장 되었습니다.'
       Storage.set('options', this.options)
       Message.send('optionsUpdated', this.options)
-    }, 500), { deep: true })
+    }, 600), { deep: true })
   },
   methods: {
     update (path, value) { _.set(this.options, path, value) },
@@ -45,7 +45,7 @@ export default {
   width: 500px; margin: 20px auto;background: #f7f7f7;position: relative;overflow: hidden;
   .mu-appbar /deep/ .mu-appbar-title{display: flex;flex-direction: column;}
   .title{object-fit: contain;margin: 8px 0px;width: 160px;-webkit-user-drag: none;}
-  .content {flex:1;overflow-y:auto;padding:0 20px;}
+  .content {flex:1;overflow-y:auto;padding:0 20px;overflow-x: hidden;}
   .tooltip{
     height: 0;
     text-align: center;
@@ -64,4 +64,5 @@ export default {
 body .mu-item-action{min-width: 43px;}
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:500,700,900&subset=korean');
 body { font-family: 'Noto Sans KR', sans-serif !important;user-select: none; }
+.flex-1{flex:1;}
 </style>
