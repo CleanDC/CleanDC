@@ -10,38 +10,55 @@
       <side-nav />
       <router-view class="content" :options="options" @update="update" />
     </div>
+    <toast :message.sync="message" />
   </mu-paper>
 </template>
 <script>
 import { Storage, Message } from '../utils'
 import SideNav from './components/SideNav.vue'
+import Toast from './components/Toast.vue'
 import _ from 'lodash'
 import packageJson from '../package.json'
 
 export default {
   name: 'Options',
-  components: { SideNav },
-  data () { return { options: null } },
+  components: { SideNav, Toast },
+  data () { return { options: null, message: '' } },
   computed: {
     github () { return packageJson.homepage },
   },
   async created () {
     this.options = await Storage.get('options')
-    this.$watch('options', v => {
-      Storage.set('options', v)
-      Message.send('optionsUpdated', v)
-    }, { deep: true })
+    this.$watch('options', _.debounce(() => {
+      this.message = '저장 되었습니다.'
+      Storage.set('options', this.options)
+      Message.send('optionsUpdated', this.options)
+    }, 500), { deep: true })
   },
   methods: {
     update (path, value) { _.set(this.options, path, value) },
   },
 }
 </script>
-<style scoped>
-.options {width: 500px; margin: 20px auto;background: #f7f7f7;}
-.mu-appbar >>> .mu-appbar-title{display: flex;flex-direction: column;}
-.title{object-fit: contain;margin: 8px 0px;width: 160px;-webkit-user-drag: none;}
-.content {flex:1;overflow-y:auto;padding:0 20px;}
+<style lang="scss" scoped>
+.options {
+  width: 500px; margin: 20px auto;background: #f7f7f7;position: relative;overflow: hidden;
+  .mu-appbar /deep/ .mu-appbar-title{display: flex;flex-direction: column;}
+  .title{object-fit: contain;margin: 8px 0px;width: 160px;-webkit-user-drag: none;}
+  .content {flex:1;overflow-y:auto;padding:0 20px;}
+  .tooltip{
+    height: 0;
+    text-align: center;
+    .text{
+      display: inline-block;
+      transform: translateY(-100%);
+      padding: 10px;
+      background: #00000094;
+      color: white;
+      border-radius: 3px 3px 0 0;
+    }
+  }
+}
 </style>
 <style>
 body .mu-item-action{min-width: 43px;}
