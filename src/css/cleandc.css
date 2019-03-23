@@ -25,3 +25,4 @@ div#neoScreenMixWiderViewLayer{
 /* 여기서부턴 스타일 보정 */
 .list_wrap, .view_wrap {min-width: 0;}
 .wrap_inner {width: auto;}
+#visit_history > h3 { min-width: 94px; }

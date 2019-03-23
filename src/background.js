@@ -1,5 +1,7 @@
 import { Storage, Message } from '../utils'
+import * as tf from '@tensorflow/tfjs'
 import _ from 'lodash'
+tf.disableDeprecationWarnings()
 const defaultOptions = {
   blacklist: {
     word: [], user: ['댓글돌이'], regex: [], jjal: []
