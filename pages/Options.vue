@@ -29,7 +29,11 @@ export default {
   },
   async created () {
     this.options = await Storage.get('options')
-    this.$watch('options', _.debounce(() => {
+    Message.listen('optionsUpdated', (options, sender) => {
+      if (sender.url) this.options = options // 다른 페이지에서 변경되었을 경우
+    }, false)
+    this.$watch('options', _.debounce((v, o) => {
+      if (v !== o) return // 레퍼런스가 바뀐건 위에 optionsUpdated에서 바뀐것
       this.message = '저장 되었습니다.'
       Storage.set('options', this.options)
       Message.send('optionsUpdated', this.options)
