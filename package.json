@@ -20,16 +20,20 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.7.1",
+    "@tensorflow/tfjs": "^0.15.0",
     "axios": "^0.18.0",
+    "clean-webpack-plugin": "^2.0.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "muse-ui": "^3.0.2",
+    "nsfwjs": "^0.1.1",
     "vue": "^2.5.22",
     "vue-router": "^3.0.2"
   },
   "scripts": {
     "zip": "bestzip build.zip build/",
-    "build": "webpack --mode=production && npm run zip",
+    "prod": "webpack --mode=production",
+    "build": "npm run prod && npm run zip",
     "lint": "eslint src pages utils helper --ext .js,.vue,.html --fix",
     "gh-pages": "node node_modules/push-dir/bin/push-dir --dir=sample --branch=gh-pages --cleanup"
   },

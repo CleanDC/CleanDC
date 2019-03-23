@@ -1,12 +1,13 @@
 {
-  "version": "4.0.10",
-  "version_name": "4.0.0-beta",
+  "version": "4.1.0",
+  "version_name": "4.1.0",
   "author": "Sunny Holic",
   "background": {
     "scripts": [
       "background.js"
     ]
   },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "page_action": {
     "default_icon": {
       "19": "icons/icon19.png",
@@ -43,11 +44,14 @@
     "storage",
     "webRequest",
     "webRequestBlocking",
+    "*://*.dcinside.com/*",
+    "*://*.dcinside.co.kr/*",
     "tabs",
     "notifications"
   ],
   "web_accessible_resources": [
     "helper.js",
+    "assets/**",
     "*.png",
     "*.woff2"
   ],

@@ -1,6 +1,5 @@
 import { selectors as sel } from '../utils/Element'
-const style = css => $(`<style type="text/css">${css}</style>`)
-$(document.head).append(style(require('./helper.css')))
+import './helper.css'
 
 if (document.querySelector(sel.editor)) { // 에디터일때
   require('./gjjal')

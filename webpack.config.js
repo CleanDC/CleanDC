@@ -1,5 +1,6 @@
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ChromeExtensionReloader = require('webpack-chrome-extension-reloader')
 const _ = require('lodash')
@@ -18,7 +19,8 @@ module.exports = function (env, { mode = 'development' }) {
         { test: /\.(png|woff2|svg|jpg|gif)$/, loader: 'file-loader?outputPath=files/' }
       ],
     },
-    plugins: [new VueLoaderPlugin()],
+    node: { fs: 'empty' },
+    plugins: [ production && new CleanWebpackPlugin(), new VueLoaderPlugin() ].filter(x => x),
     performance: { maxAssetSize: 1000 * 1024, maxEntrypointSize: 500 * 1024 },
     output: {
       filename: '[name].js',
@@ -36,6 +38,7 @@ module.exports = function (env, { mode = 'development' }) {
         new CopyWebpackPlugin([
           './node_modules/jquery/dist/jquery.min.js',
           './manifest.json',
+          { from: './assets/', to: path.resolve(__dirname, 'build', 'assets'), toType: 'dir' },
           { from: './icons/', to: path.resolve(__dirname, 'build', 'icons'), toType: 'dir' }
         ]),
       ],

@@ -9,6 +9,7 @@ export const selectors = {
   write: '#write',
   contextMenuTarget: '.nickname,.ip,b>b',
   block: '.cleandc-block',
+  articleContent: '.writing_view_box'
 }
 
 export const classes = {
