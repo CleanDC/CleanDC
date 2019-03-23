@@ -1,0 +1,4 @@
+div.view_content_wrap .writing_view_box img{
+  transition: filter .1s linear;
+  &:not(.sfw){filter: blur(10px) grayscale(50%) opacity(.3);}
+}

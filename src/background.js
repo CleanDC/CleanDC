@@ -1,5 +1,7 @@
 import { Storage, Message } from '../utils'
+import * as tf from '@tensorflow/tfjs'
 import _ from 'lodash'
+tf.disableDeprecationWarnings()
 const defaultOptions = {
   blacklist: {
     word: [], user: ['댓글돌이'], regex: [], jjal: []
@@ -7,17 +9,24 @@ const defaultOptions = {
   font: true,
   style: 'responsive',
   check: {
-    user: false,
+    user: true,
     word: false,
     jjal: false,
     regex: false,
+  },
+  nsfw: {
+    enable: true,
+    drawing: 50,
+    hentai: 50,
+    porn: 50,
+    sexy: 50
   },
   clickAnimation: false,
   blockUdong: false
 }
 async function initOptions () {
   let options = await Storage.get('options')
-  if (options) return
+  if (options) return Storage.set('options', _.merge(defaultOptions, options))
   const setting = await Storage.get('setting') // 이전 옵션 찾음
   try { options = JSON.parse(setting) } catch (e) { return Storage.set('options', defaultOptions) }
   // 구버전 옵션 변경
@@ -34,8 +43,22 @@ async function initOptions () {
   _.forEach([ 'chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick' ], x => _.unset(options, x))
   return Storage.set('options', _.merge(defaultOptions, options)) // 있으면 이전 옵션을 저장
 }
-
 initOptions()
+
+async function nsfw () {
+  const model = await require('nsfwjs').load(chrome.extension.getURL('assets/nsfw/'))
+  Message.listen('nsfw', async (pl, sdr, res) => {
+    const image = new Image()
+    image.src = pl
+    try {
+      await new Promise((onload, onerror) => Object.assign(image, { onload, onerror })) // eslint-disable-line promise/param-names
+      res(await model.classify(image))
+    } catch (e) {
+      res(null)
+    }
+  })
+}
+nsfw()
 
 function createContextMenu (title, onclick) {
   chrome.contextMenus.create({
@@ -73,8 +96,13 @@ createContextMenu(
 
 Message.listen('requestGjjal', (pl, sdr, res) => res(JSON.parse(localStorage.gjjal || '{}')))
 Message.listen('requestOptions', (pl, sdr, res) => Storage.get('options').then(res))
-Message.listen('optionsUpdated', options => Message.sendAllTabs('optionsUpdated', options))
+Message.listen('optionsUpdated', options => Message.sendAllTabs('optionsUpdated', options), false)
 // 팝업을 표시할 조건
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   /https?:\/\/(gall|job).dcinside.com\/.+\/.+/.test(tab.url) && chrome.pageAction.show(tabId)
 })
+const handler = function (details) {
+  details.requestHeaders.push({ name: 'Referer', value: 'https://gall.dcinside.com/board/view' }) // 이미지 백그라운드 요청시 레퍼러 문제
+  return { requestHeaders: details.requestHeaders }
+}
+chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['blocking', 'requestHeaders', 'extraHeaders'])
