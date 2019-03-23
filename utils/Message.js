@@ -6,21 +6,17 @@ chrome.runtime.onMessage.addListener(
   ({ name, payload }, sender, sendResponse) => {
     if (!listeners[name]) return
     listeners[name].callback(payload, sender, sendResponse)
-    return true
+    return listeners[name].willResponse
   }
 )
 
-export function listen (name, callback = (payload, sender, sendResponse) => {}) { // 콜백이 있을 경우 콜백으로 응답
+export function listen (name, callback = (payload, sender, sendResponse) => {}, willResponse = true) { // 콜백이 있을 경우 콜백으로 응답
   let cb = callback
   listeners[name] = {
     callback (payload, sender, sendResponse) {
       cb(payload, sender, sendResponse)
-    }
-  }
-  return {
-    callback (callback) {
-      cb = callback
-    }
+    },
+    willResponse
   }
 }
 

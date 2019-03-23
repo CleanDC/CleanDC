@@ -96,7 +96,7 @@ createContextMenu(
 
 Message.listen('requestGjjal', (pl, sdr, res) => res(JSON.parse(localStorage.gjjal || '{}')))
 Message.listen('requestOptions', (pl, sdr, res) => Storage.get('options').then(res))
-Message.listen('optionsUpdated', options => Message.sendAllTabs('optionsUpdated', options))
+Message.listen('optionsUpdated', options => Message.sendAllTabs('optionsUpdated', options), false)
 // 팝업을 표시할 조건
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   /https?:\/\/(gall|job).dcinside.com\/.+\/.+/.test(tab.url) && chrome.pageAction.show(tabId)

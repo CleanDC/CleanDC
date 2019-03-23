@@ -57,7 +57,7 @@ const lifecycle = {
   update () {
     Message.listen('optionsUpdated', options => {
       _.invokeMap(functions, 'update', options)
-    })
+    }, false)
   }
 }
 
