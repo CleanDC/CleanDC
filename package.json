@@ -33,7 +33,7 @@
   "scripts": {
     "zip": "bestzip build.zip build/",
     "prod": "webpack --mode=production",
-    "build": "npm run pord && npm run zip",
+    "build": "npm run prod && npm run zip",
     "lint": "eslint src pages utils helper --ext .js,.vue,.html --fix",
     "gh-pages": "node node_modules/push-dir/bin/push-dir --dir=sample --branch=gh-pages --cleanup"
   },
