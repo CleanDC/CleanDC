@@ -28,11 +28,11 @@ const lifecycle = {
   },
   async list (body) {
     const list = await Observer.wait(body, sel.list)
-    for (let i = 0; i < 3; i++) {
-      if (list.find(sel.row).length > 1) break
-      await sleep()
-    }
-    _.invokeMap(functions, 'list', list, options)
+    _.invokeMap(functions, 'listCreated', list, options)
+    Observer.watch(list, function (mutations) {
+      this.disconnect() // 크롬 v73.0 첫 mutation때 글 목록들이 모두 들어와짐. 6배 스로틀링 걸어도 동일
+      _.invokeMap(functions, 'list', list, options)
+    })
   },
   async article (body) {
     const article = await Observer.wait(body, sel.article)
