@@ -2,9 +2,11 @@ import Deferred from './Deferred'
 
 export function watch (target, cb, options = { childList: true }) {
   const element = $(target)
-  return new MutationObserver(function (mutations) {
+  const observer = new MutationObserver(function (mutations) {
     cb.call(this, mutations)
-  }).observe(element.get(0), options)
+  })
+  observer.observe(element.get(0), options)
+  return observer
 }
 
 export function wait (parent, selector, { next, timeout } = {}) {

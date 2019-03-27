@@ -1,6 +1,9 @@
 import { Element } from '../../utils'
 
 export default {
+  listCreated (list) {
+    this.list(list)
+  },
   list (list) {
     const tags = list.find(Element.selectors.row + ' .gall_tit a:not(.reply_numbox)')
     let i = 0
