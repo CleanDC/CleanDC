@@ -47,6 +47,7 @@ CleanDC
  head | 헤드 나옴 | head Element, options Promise 
  body | 바디 나옴 | body Element, options Promise 
  list | 글 목록 나옴| list Element, options Promise 
+ listCreated | 글 목록 엘리먼트 생성 | list Element, options Promise 
  article| 글 내용 나옴| article Element, options Promise 
  attachment | 첨부파일 나옴 | attachment Element, options Promise 
  comments | 댓글 목록 발생(지속) | comments Element, options Promise 
