@@ -89,6 +89,9 @@ export default {
       article.parent().find(sel.comments).each((i, el) => block.comments($(el)))
     }
   },
+  listCreated (list, options) {
+    Block.create(options).then(block => block.list(list, options))
+  },
   list (list, options) {
     $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
     Block.create(options).then(block => block.list(list, options))
