@@ -25,11 +25,12 @@ const check = async function (article, options) {
         evt.stopPropagation()
         img.addClass('sfw')
       })
-      img.attr('title', '분석중')
+      const banner = '[클린디씨 - 후방주의 기능]\n'
+      img.attr('title', banner + '분석중')
       const res = await Message.send('nsfw', img.attr('src'))
       const nsfw = res && _(res).keyBy('className').mapValues('probability').value()
-      if (!nsfw) return img.addClass('sfw').attr('title', '분석 에러')
-      img.attr('title', _.map(nsfw, (v, k) => `${name[k]} : ${Math.round(v * 10000) / 100}%`).join('\n'))
+      if (!nsfw) return img.addClass('sfw').attr('title', '이미지 로딩 에러')
+      img.attr('title', banner + _.map(nsfw, (v, k) => `${name[k]} : ${Math.round(v * 10000) / 100}%`).join('\n'))
       if ((
         nsfw.Drawing * 100 < drawing &&
         nsfw.Hentai * 100 < hentai &&
