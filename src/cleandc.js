@@ -28,7 +28,7 @@ const lifecycle = {
   },
   async list (body) {
     const list = await Observer.wait(body, sel.list)
-    _.invokeMap(functions, 'listCreated', list, options)
+    _.invokeMap(functions, 'listCreated', list, options) // v73.0.3683.86 또 여기서 들어오고 아래 와치 안탐
     Observer.watch(list, function (mutations) {
       this.disconnect() // 크롬 v73.0 첫 mutation때 글 목록들이 모두 들어와짐. 6배 스로틀링 걸어도 동일
       _.invokeMap(functions, 'list', list, options)
