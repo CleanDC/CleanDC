@@ -7,7 +7,7 @@ export const selectors = {
   comments: 'div.comment_wrap',
   editor: 'div.editor_wrap',
   write: '#write',
-  contextMenuTarget: '.nickname,.ip,b>b',
+  contextMenuTarget: '.nickname>em,.ip>em,b>b',
   block: '.cleandc-block',
   articleContent: '.writing_view_box'
 }
