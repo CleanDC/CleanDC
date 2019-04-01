@@ -90,10 +90,11 @@ export default {
     }
   },
   listCreated (list, options) {
+    $(sel.writer).find(sel.contextMenuTarget).wrap(tag.contextMenu) // context 메뉴 지원 래퍼 추가
     Block.create(options).then(block => block.list(list, options))
   },
   list (list, options) {
-    $(sel.writer).find(sel.contextMenuTarget).wrapInner(tag.contextMenu) // context 메뉴 지원 래퍼 추가
+    $(sel.writer).find(sel.contextMenuTarget).wrap(tag.contextMenu) // context 메뉴 지원 래퍼 추가
     Block.create(options).then(block => block.list(list, options))
   },
   article (article, options) {
