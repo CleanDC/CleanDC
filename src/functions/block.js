@@ -61,8 +61,8 @@ class Block {
   regex (item) {
     const writer = item.find(sel.writer)
     if (!writer.length) return
-    const { nick } = writer.data()
-    const match = _.find(this.cache.regex, x => x.test(nick))
+    const { uid, nick } = writer.data()
+    const match = _.find(this.cache.regex, x => (x.test(nick) || x.test(uid)))
     return match && item.addClass(cls.block)
   }
   jjal (attachment) {
