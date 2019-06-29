@@ -65,15 +65,7 @@ async function onSubmit (e) {
   }
   if (data.width >= 850) { file.imageurl = data.web__url }
   Editor.getSidebar().getAttacher('image').attachHandler(file)
-  if (!jjalJson.url) { // url이 아닌 첨부 파일이면
-    let content = Editor.getContent()
-    // 첨부한거 본문에서만 삭제
-    for (const image of Editor.getSidebar().getAttachments('image')) {
-      if (data.file_temp_no !== image.data.file_temp_no) continue
-      content = content.replace(new RegExp(`<p[^>]*>${image.regHtml.source}</p><p>((?!</p>).)*</p>`, 'gim'), '')
-    }
-    Editor.modify({ content })
-  } else {
+  if (jjalJson.url) { // url 첨부인경우 수동으로 태그 삽입
     Editor.modify({ content: `<img src='${jjalJson.url}'>${Editor.getContent()}<p><br><p>` })
   }
   $('#upload_status').val('Y')
