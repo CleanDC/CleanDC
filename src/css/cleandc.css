@@ -3,7 +3,7 @@
 [id$="_ad"],[class$="_ad"],[class^="adsByIdn"],[class^="adsbyadop"],
 [id*="taboola"],[class*="taboola"],
 [id^=div-gpt-ad],[id^="ad-"],[class^="ad-"],iframe[src*="itemmania.com"],
-[id*="soeaFrame"],[id*="NeoScreen"],[id^="aswift"],
+[id*="soeaFrame"],[id*="NeoScreen"],[id^="aswift"],[class^="adop"],[style*="position:absolute;left:50%"],
 iframe[src*="about.co.kr"],.banner_dc,
 #isx,#div_neo,.banner_box,#dc_advertisement,
 #uniqubeAd_area,.con_banner,#NeoInteractiveScreenViewLayer,.daum_ddn_area,.kakao_ad_area,

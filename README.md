@@ -67,6 +67,11 @@ export default {
 }
 ```
 
+## 실행 & 빌드
+설명 | 명령어
+-|-
+개발모드|`npx webpack -w`  
+zip빌드|`npm run build`
 
 ## License
 GPL-3.0
