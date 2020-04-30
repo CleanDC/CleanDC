@@ -23,7 +23,7 @@
     "@tensorflow/tfjs": "^0.15.0",
     "axios": "^0.18.0",
     "clean-webpack-plugin": "^2.0.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.11",
     "muse-ui": "^3.0.2",
     "nsfwjs": "^2.0.0",
