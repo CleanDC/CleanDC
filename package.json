@@ -24,7 +24,7 @@
     "axios": "^0.18.0",
     "clean-webpack-plugin": "^2.0.1",
     "jquery": "^3.3.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "muse-ui": "^3.0.2",
     "nsfwjs": "^2.0.0",
     "vue": "^2.5.22",
