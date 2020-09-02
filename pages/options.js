@@ -17,13 +17,16 @@ Vue.use(MuseUI)
 Vue.use(VueRouter)
 
 // eslint-disable-next-line no-new
-new Vue({ el: 'app',
+new Vue({
+  el: 'app',
   render: h => h(Options),
-  router: new VueRouter({ routes: [
-    { path: '/', component: Style },
-    { path: '/style', component: Style },
-    { path: '/wordblock', component: WordBlock },
-    { path: '/userblock', component: UserBlock },
-    { path: '/etc', component: Etcetera },
-  ] })
+  router: new VueRouter({
+    routes: [
+      { path: '/', component: Style },
+      { path: '/style', component: Style },
+      { path: '/wordblock', component: WordBlock },
+      { path: '/userblock', component: UserBlock },
+      { path: '/etc', component: Etcetera },
+    ]
+  })
 })

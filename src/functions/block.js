@@ -30,6 +30,7 @@ class Block {
   list (table) {
     _(table.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
   }
+
   article (article) {
     const onMatch = msg => {
       alert(msg)
@@ -41,6 +42,7 @@ class Block {
     if (this.regex(article)) return onMatch('정규식 차단된 작성자의 게시물입니다.')
     return true
   }
+
   comments (wrap) {
     _(wrap.find(sel.row)).map($).forEach(x => this.user(x) || this.word(x) || this.regex(x))
   }
@@ -53,11 +55,13 @@ class Block {
     const match = _.find([uid, ip, nick], x => this.cache.user[x])
     return match && item.addClass(cls.block)
   }
+
   word (item) {
     const text = item.prop('innerText')
     const match = _.find(this.cache.word, x => text.includes(x))
     return match && item.addClass(cls.block)
   }
+
   regex (item) {
     const writer = item.find(sel.writer)
     if (!writer.length) return
@@ -65,6 +69,7 @@ class Block {
     const match = _.find(this.cache.regex, x => (x.test(nick) || x.test(uid)))
     return match && item.addClass(cls.block)
   }
+
   jjal (attachment) {
     _(attachment.find('li a')).map($)
       .map(a => ({

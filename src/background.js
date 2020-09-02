@@ -38,7 +38,7 @@ async function initOptions () {
   Object.assign(options, { check: { user, word, jjal, regex } })
   options.font = options.nanumgothic
   options.blacklist.user = options.blacklist.nick.map(x => x.replace(/\.\*\.\*$/, ''))
-  _.forEach([ 'chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick' ], x => _.unset(options, x))
+  _.forEach(['chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick'], x => _.unset(options, x))
   return Storage.set('options', _.merge(defaultOptions, options)) // 있으면 이전 옵션을 저장
 }
 initOptions()

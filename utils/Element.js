@@ -17,6 +17,6 @@ export const classes = {
   row: 'ub-content',
   writer: 'ub-writer',
 }
-export const tag = { contextMenu: `<a href="javascript:" class="contextmenu"></a>` }
+export const tag = { contextMenu: '<a href="javascript:" class="contextmenu"></a>' }
 
 export default { selectors, classes, tag }
