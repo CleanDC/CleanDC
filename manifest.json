@@ -42,11 +42,9 @@
     "contextMenus",
     "storage",
     "webRequest",
-    "webRequestBlocking",
     "*://*.dcinside.com/*",
     "*://*.dcinside.co.kr/*",
-    "tabs",
-    "notifications"
+    "tabs"
   ],
   "web_accessible_resources": [
     "helper.js",

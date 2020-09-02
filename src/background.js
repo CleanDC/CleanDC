@@ -103,4 +103,4 @@ const handler = function (details) {
   details.requestHeaders.push({ name: 'Referer', value: 'https://gall.dcinside.com/board/view' }) // 이미지 백그라운드 요청시 레퍼러 문제
   return { requestHeaders: details.requestHeaders }
 }
-chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['blocking', 'requestHeaders', 'extraHeaders'])
+chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['requestHeaders', 'extraHeaders'])

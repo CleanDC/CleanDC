@@ -32,6 +32,7 @@
   },
   "scripts": {
     "zip": "bestzip build.zip build/",
+    "dev": "webpack",
     "prod": "webpack --mode=production",
     "build": "npm run prod && npm run zip",
     "lint": "eslint src pages utils helper --ext .js,.vue,.html --fix",
