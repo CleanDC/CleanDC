@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "쾌적한 갤질을 위해",
   "devDependencies": {
-    "bestzip": "^2.1.2",
+    "bestzip": "^2.1.7",
     "copy-webpack-plugin": "^5.1.2",
     "css-loader": "^2.1.0",
     "eslint-plugin-vue": "^6.2.2",
