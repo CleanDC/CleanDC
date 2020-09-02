@@ -15,7 +15,8 @@
     "vue-loader": "^15.5.1",
     "vue-template-compiler": "^2.5.22",
     "webpack": "^4.28.4",
-    "webpack-chrome-extension-reloader": "^1.1.2"
+    "webpack-chrome-extension-reloader": "^1.1.2",
+    "webpack-cli": "^3.2.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.7.1",
@@ -28,6 +29,9 @@
     "nsfwjs": "^2.0.0",
     "vue": "^2.5.22",
     "vue-router": "^3.0.2"
+  },
+  "gitHooks": {
+    "pre-commit": "npm run lint"
   },
   "scripts": {
     "zip": "bestzip build.zip build/",
