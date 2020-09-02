@@ -61,7 +61,7 @@ export default {
       if (this.focus === idx) this.focus = null // 하지 않으면 지웠을때 포커싱을 옮긴게 적용이 안됨
       this.editing = false
       const el = $evt.target
-      let text = el.innerText.trim()
+      const text = el.innerText.trim()
       const list = this.list
       const found = _.findIndex(list, (x, i) => i !== idx && x === text)
       if (found > -1) list.splice(found, 1, undefined)

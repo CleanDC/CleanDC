@@ -1,5 +1,5 @@
 {
-  "version": "4.1.4",
+  "version": "4.1.5",
   "author": "Sunny Holic",
   "background": {
     "scripts": [
@@ -42,11 +42,9 @@
     "contextMenus",
     "storage",
     "webRequest",
-    "webRequestBlocking",
     "*://*.dcinside.com/*",
     "*://*.dcinside.co.kr/*",
-    "tabs",
-    "notifications"
+    "tabs"
   ],
   "web_accessible_resources": [
     "helper.js",

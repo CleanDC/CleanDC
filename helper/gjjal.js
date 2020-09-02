@@ -1,5 +1,5 @@
 import axios from 'axios'
-const { $, Math, Array, Uint8Array, Editor, Blob, FormData, RegExp } = window
+const { $, Math, Array, Uint8Array, Editor, Blob, FormData } = window
 
 let jjalJson
 window.addEventListener('message', function (event) {
@@ -55,13 +55,13 @@ async function onSubmit (e) {
 
   const data = res.data.files.pop()
   const file = {
-    'file_temp_no': data.file_temp_no,
-    'filename': data.name,
-    'filesize': data.size,
-    'imageurl': data.url,
-    'imagealign': 'L',
-    'originalurl': data.url,
-    'thumburl': data._s_url
+    file_temp_no: data.file_temp_no,
+    filename: data.name,
+    filesize: data.size,
+    imageurl: data.url,
+    imagealign: 'L',
+    originalurl: data.url,
+    thumburl: data._s_url
   }
   if (data.width >= 850) { file.imageurl = data.web__url }
   Editor.getSidebar().getAttacher('image').attachHandler(file)
@@ -71,5 +71,5 @@ async function onSubmit (e) {
   $('#upload_status').val('Y')
 }
 
-$('.tx-nav-opt').after(`<form id="gjjal">`).next().submit(onSubmit)
-  .append(`<input type="submit" id="do-gjjal" value="고정짤방삽입">`)
+$('.tx-nav-opt').after('<form id="gjjal">').next().submit(onSubmit)
+  .append('<input type="submit" id="do-gjjal" value="고정짤방삽입">')

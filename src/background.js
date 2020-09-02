@@ -38,7 +38,7 @@ async function initOptions () {
   Object.assign(options, { check: { user, word, jjal, regex } })
   options.font = options.nanumgothic
   options.blacklist.user = options.blacklist.nick.map(x => x.replace(/\.\*\.\*$/, ''))
-  _.forEach([ 'chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick' ], x => _.unset(options, x))
+  _.forEach(['chk_blacklist', 'chk_blackword', 'chk_blackjjal', 'chk_regex', 'nanumgothic', 'blacklist.nick'], x => _.unset(options, x))
   return Storage.set('options', _.merge(defaultOptions, options)) // 있으면 이전 옵션을 저장
 }
 initOptions()
@@ -103,4 +103,4 @@ const handler = function (details) {
   details.requestHeaders.push({ name: 'Referer', value: 'https://gall.dcinside.com/board/view' }) // 이미지 백그라운드 요청시 레퍼러 문제
   return { requestHeaders: details.requestHeaders }
 }
-chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['blocking', 'requestHeaders', 'extraHeaders'])
+chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['requestHeaders', 'extraHeaders'])
