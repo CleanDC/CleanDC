@@ -42,6 +42,7 @@
     "contextMenus",
     "storage",
     "webRequest",
+    "webRequestBlocking",
     "*://*.dcinside.com/*",
     "*://*.dcinside.co.kr/*",
     "tabs"
