@@ -100,7 +100,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   /https?:\/\/(gall|job).dcinside.com\/.+\/.+/.test(tab.url) && chrome.pageAction.show(tabId)
 })
 const handler = function (details) {
+  if (!/^chrome-extension/.test(details.initiator)) return
   details.requestHeaders.push({ name: 'Referer', value: 'https://gall.dcinside.com/board/view' }) // 이미지 백그라운드 요청시 레퍼러 문제
   return { requestHeaders: details.requestHeaders }
 }
-chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['requestHeaders', 'extraHeaders'])
+chrome.webRequest.onBeforeSendHeaders.addListener(handler, { urls: ['*://*.dcinside.co.kr/*'] }, ['blocking', 'requestHeaders', 'extraHeaders'])

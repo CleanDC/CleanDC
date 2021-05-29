@@ -42,17 +42,17 @@ CleanDC
 
 `functions`에 파일을 추가하고 `export default` 오브젝트의 속성으로 사용합니다.
 
- Lifecycle | 시점 | 파라미터
--|-|-
- head | 헤드 나옴 | head Element, options Promise 
- body | 바디 나옴 | body Element, options Promise 
- list | 글 목록 나옴| list Element, options Promise 
- listCreated | 글 목록 엘리먼트 생성 | list Element, options Promise 
- article| 글 내용 나옴| article Element, options Promise 
- attachment | 첨부파일 나옴 | attachment Element, options Promise 
- comments | 댓글 목록 발생(지속) | comments Element, options Promise 
- ready | 도큐먼트 로딩 완료| options Promise 
- update | 옵션 변경 발생| options Object
+| Lifecycle   | 시점                  | 파라미터                            |
+| ----------- | --------------------- | ----------------------------------- |
+| head        | 헤드 나옴             | head Element, options Promise       |
+| body        | 바디 나옴             | body Element, options Promise       |
+| list        | 글 목록 나옴          | list Element, options Promise       |
+| listCreated | 글 목록 엘리먼트 생성 | list Element, options Promise       |
+| article     | 글 내용 나옴          | article Element, options Promise    |
+| attachment  | 첨부파일 나옴         | attachment Element, options Promise |
+| comments    | 댓글 목록 발생(지속)  | comments Element, options Promise   |
+| ready       | 도큐먼트 로딩 완료    | options Promise                     |
+| update      | 옵션 변경 발생        | options Object                      |
 
 #### 예시
 ```js
@@ -68,10 +68,10 @@ export default {
 ```
 
 ## 실행 & 빌드
-설명 | 명령어
--|-
-개발모드|`npx webpack -w`  
-zip빌드|`npm run build`
+| 설명     | 명령어           |
+| -------- | ---------------- |
+| 개발모드 | `npx webpack -w` |
+| zip빌드  | `npm run build`  |
 
 ## License
 GPL-3.0
