@@ -56,7 +56,7 @@ async function nsfw () {
     }
   })
 }
-nsfw()
+// nsfw()
 
 function createContextMenu (title, onclick) {
   chrome.contextMenus.create({
