@@ -47,7 +47,7 @@ export default {
 <style lang="scss" scoped>
 .options {
   width: 500px; margin: 20px auto;background: #f7f7f7;position: relative;overflow: hidden;
-  .mu-appbar /deep/ .mu-appbar-title{display: flex;flex-direction: column;}
+  .mu-appbar ::v-deep .mu-appbar-title{display: flex;flex-direction: column;}
   .title{object-fit: contain;margin: 8px 0px;width: 160px;-webkit-user-drag: none;}
   .content {flex:1;overflow-y:auto;padding:0 20px;overflow-x: hidden;}
   .tooltip{
