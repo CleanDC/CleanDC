@@ -2,12 +2,9 @@
   "version": "4.1.7",
   "author": "Sunny Holic",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "page_action": {
+  "action": {
     "default_icon": {
       "19": "icons/icon19.png",
       "38": "icons/icon38.png"
@@ -15,8 +12,7 @@
     "default_title": "클린디씨",
     "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
+  "content_scripts": [{
       "js": [
         "jquery.min.js",
         "cleandc.js"
@@ -26,8 +22,7 @@
         "*://job.dcinside.com/*/*"
       ],
       "run_at": "document_start"
-    }
-  ],
+  }],
   "description": "쾌적한 갤질을 위해",
   "icons": {
     "16": "icons/icon16.png",
@@ -35,23 +30,27 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "클린디씨",
   "options_page": "options.html",
   "permissions": [
     "contextMenus",
     "storage",
     "webRequest",
-    "webRequestBlocking",
-    "*://*.dcinside.com/*",
-    "*://*.dcinside.co.kr/*",
+    "declarativeNetRequest",
     "tabs"
   ],
-  "web_accessible_resources": [
-    "helper.js",
-    "assets/**",
-    "*.png",
-    "*.woff2"
-  ],
+  "web_accessible_resources": [{
+    "resources": [
+      "helper.js",
+      "assets/**",
+      "*.png",
+      "*.woff2"
+    ],
+    "matches": [
+      "*://*.dcinside.com/*",
+      "*://*.dcinside.co.kr/*"
+    ]
+  }],
   "short_name": "CleanDC"
 }
