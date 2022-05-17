@@ -21,7 +21,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.7.1",
     "@tensorflow/tfjs": "^0.15.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "clean-webpack-plugin": "^2.0.1",
     "jquery": "^3.5.1",
     "lodash": "^4.17.21",
